@@ -24,7 +24,7 @@ app.set('views', 'server/views');
 // dica: o handler desta função é bem simples - basta passar para o template
 //       os dados do arquivo data/jogadores.json
 app.get('/', function(request, response) {
-  response.render('index', jogador:db.jogadores);
+  response.render('index', {jogador:db.jogadores});
 });
 
 // EXERCÍCIO 3
@@ -32,7 +32,10 @@ app.get('/', function(request, response) {
 // jogador, usando os dados do banco de dados "data/jogadores.json" e
 // "data/jogosPorJogador.json", assim como alguns campos calculados
 // dica: o handler desta função pode chegar a ter umas 15 linhas de código
-
+app.get('/jogador/:id/', function(request, response) {
+  var jogador = 
+  responde.render('jogador.hbs', {})
+});
 
 // EXERCÍCIO 1
 // configurar para servir os arquivos estáticos da pasta "client"
