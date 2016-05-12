@@ -1,0 +1,27 @@
+{
+  "name": "cefet-web-geiser",
+  "version": "1.0.0",
+  "description": "\"Um cadastrador de jogos\"",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielmattar/cefet-web-geiser.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabrielmattar/cefet-web-geiser/issues"
+  },
+  "homepage": "https://github.com/gabrielmattar/cefet-web-geiser#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "hbs": "^4.0.0",
+    "underscore": "^1.8.3"
+  }
+}
