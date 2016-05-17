@@ -61,7 +61,6 @@ app.get('/jogador/:id/', function(request, response) {
   });
 
   player.quantos.total = Number(player.quantos.naoJogou + player.quantos.simJogou);
-  console.log(player.quantos);
   response.render('jogador.hbs', {
     jogador : player,
     topjogos : _.first(player.jogos, 5),
