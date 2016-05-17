@@ -1,6 +1,8 @@
 var express = require('express'),
     app = express(),
+    _ = require('underscore'),
     files = require('fs');
+
 
 
 // carregar "banco de dados" (data/jogadores.json e data/jogosPorJogador.json)
@@ -9,7 +11,7 @@ var express = require('express'),
 
 var db = {
   jogadores : JSON.parse(files.readFileSync('server/data/jogadores.json')).players,
-  jogo : JSON.parse(files.readFileSync('server/data/jogosPorJogador.json'))
+  jogosPorJogador : JSON.parse(files.readFileSync('server/data/jogosPorJogador.json'))
 };
 
 
@@ -24,7 +26,9 @@ app.set('views', 'server/views');
 // dica: o handler desta função é bem simples - basta passar para o template
 //       os dados do arquivo data/jogadores.json
 app.get('/', function(request, response) {
-  response.render('index', {jogador:db.jogadores});
+  response.render('index', {
+    jogador : db.jogadores
+  });
 });
 
 // EXERCÍCIO 3
@@ -33,8 +37,36 @@ app.get('/', function(request, response) {
 // "data/jogosPorJogador.json", assim como alguns campos calculados
 // dica: o handler desta função pode chegar a ter umas 15 linhas de código
 app.get('/jogador/:id/', function(request, response) {
-  var jogador = 
-  responde.render('jogador.hbs', {})
+  var id = request.params.id,
+      player = _.find(db.jogadores, function(jogador){
+          if(jogador.steamid == id)
+            return true;
+          else
+            return false;
+      });
+
+  //ordenando de forma decrescente
+  player.jogos = _.sortBy(db.jogosPorJogador[id].games, function(jogo) {
+    return -jogo.playtime_forever;
+  });
+
+  player.jogos = _.each(player.jogos, function(jogo) {
+    jogo.playtime_forever = Math.round(Number(jogo.playtime_forever)/60);
+  });
+
+  player.quantos = _.countBy(player.jogos, function(jogo) {
+    if(jogo.playtime_forever == 0)
+      return 'naoJogou';
+    return 'simJogou';
+  });
+
+  player.quantos.total = Number(player.quantos.naoJogou + player.quantos.simJogou);
+  console.log(player.quantos);
+  response.render('jogador.hbs', {
+    jogador : player,
+    topjogos : _.first(player.jogos, 5),
+    maisjogado : player.jogos[0]
+  })
 });
 
 // EXERCÍCIO 1
